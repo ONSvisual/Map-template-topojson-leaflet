@@ -6,7 +6,7 @@
 "varunit":["% change since 2004","1 year % change"],
 "varprefix":["",""],
 "breaks":"jenks",
-"average":[63.5,65.4],
+"average":[24,65.4],
 "averagelabel":"E&W",
 "centre":[53.344,-1.91],
 "zoom":6

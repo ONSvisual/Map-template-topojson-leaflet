@@ -23,12 +23,6 @@
 	d3.select("#graphic").remove();
 	dvc = {};
 	
-	//Load data and config file
-	queue()
-		.defer(d3.csv, "data/data.csv")
-		.defer(d3.json, "data/config.json")
-		.await(ready);
-
 	function ready (error, data, config){
 	
 	if(config.ons.varcolour instanceof Array) {
@@ -37,7 +31,6 @@
 		dvc.colour = eval("colorbrewer." + config.ons.varcolour);
 	}
 	
-	//["#d1e5f0","#fddbc7","#f4a582","#d6604d","#b2182b"]*/ /*eval("colorbrewer." + config.ons.varcolour);*/
 	dvc.curr = config.ons.varload;
 	a = 0;
 	dvc.unittext = config.ons.varunit[a];
@@ -76,10 +69,8 @@
 	
 		
 	var layerx = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',{
-	  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB background mapping</a>'
+	  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB background</a>'
 	});
-	//http://{s}.basemaps.cartocdn.com/{basemap-name}/{z}/{x}/{y}@2x.png
-
    
     var map = L.map('map',{maxZoom:10,minZoom:3}),
     
@@ -466,22 +457,24 @@
 		data.forEach(function(d) { rateById[d.AREACD] = +eval("d." + dvc.curr); });
 
 		topoLayer.eachLayer(handleLayer);
-		var xy = d3.select(".leaflet-overlay-pane").selectAll("path")//.attr("fill-opacity",0.6);
-  
+		var xy = d3.select(".leaflet-overlay-pane").selectAll("path");
+		
 		xy.on("mouseout",leaveLayer).on("mouseover",enterLayer).on("click",enterLayer);
 		
 	}	
 
 		
-		
-		
-		
-		
-		
 
     }; // End function ready
 
 
+	//Load data and config file
+	queue()
+		.defer(d3.csv, "data/data.csv")
+		.defer(d3.json, "data/config.json")
+		.await(ready);
+		
+		
 	
 	} else {
 		d3.select("#graphic").html("Sorry your browser does not support this interactive graphic");
